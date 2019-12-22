@@ -55,7 +55,7 @@ def read_input_data(filename):
 class TestRocketEquation(unittest.TestCase):
     def test_part1(self):
         total = 0
-        for line in read_input_data('/Users/michaeljenkins/Documents/Development/advent-of-code/2019/day1/input.txt'):
+        for line in read_input_data('input.txt'):
             line = line.strip()
             total += calc_required_fuel(int(line))
 
@@ -65,7 +65,7 @@ class TestRocketEquation(unittest.TestCase):
 
     def test_part2(self):
         total = 0
-        for line in read_input_data('/Users/michaeljenkins/Documents/Development/advent-of-code/2019/day1/input.txt'):
+        for line in read_input_data('input.txt'):
             line = line.strip()
             total += calc_required_fuel(int(line), True)
 

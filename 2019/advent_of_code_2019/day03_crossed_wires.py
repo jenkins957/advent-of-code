@@ -46,7 +46,7 @@ def find_lowest_intersection(intersections):
 
 def find_minimum_signal_path(path1, path2, intersects):
     lowest = sys.maxsize
-    
+
     for intersect in intersects:
         distance_path1 = 0
         for coordinate in path1:

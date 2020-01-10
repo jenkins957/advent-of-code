@@ -34,6 +34,9 @@ import math
 import unittest
 
 
+input_file = r'resources/day1_input.txt'
+
+
 def calc_required_fuel(mass, include_fuel_in_calc=False):
     mass = int(math.floor((mass / 3)) -2)
 
@@ -54,24 +57,27 @@ def read_input_data(filename):
 class TestRocketEquation(unittest.TestCase):
     def test_part1(self):
         total = 0
-        for line in read_input_data('input.txt'):
+        for line in read_input_data(input_file):
             line = line.strip()
             total += calc_required_fuel(int(line))
 
         print('Part1:', total)
         self.assertEqual(3262356, total)
 
-
     def test_part2(self):
         total = 0
-        for line in read_input_data('input.txt'):
+        for line in read_input_data(input_file):
             line = line.strip()
             total += calc_required_fuel(int(line), True)
 
         print('Part2:', total)
+<<<<<<< HEAD:2019/advent_of_code_2019/rocket-equation.py
+        self.assertEqual(4890664, total)
+=======
         self.assertEqual(4890664, total)
 
 
 
 if __name__ == '__main__':
     unittest.main()
+>>>>>>> 3951f0cdfb10c60ee02701e850159ec199a365d4:2019/day1/rocket-equation.py

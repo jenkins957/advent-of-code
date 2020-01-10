@@ -71,13 +71,9 @@ class TestRocketEquation(unittest.TestCase):
             total += calc_required_fuel(int(line), True)
 
         print('Part2:', total)
-<<<<<<< HEAD:2019/advent_of_code_2019/rocket-equation.py
-        self.assertEqual(4890664, total)
-=======
         self.assertEqual(4890664, total)
 
 
 
 if __name__ == '__main__':
     unittest.main()
->>>>>>> 3951f0cdfb10c60ee02701e850159ec199a365d4:2019/day1/rocket-equation.py

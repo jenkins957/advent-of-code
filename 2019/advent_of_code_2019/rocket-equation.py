@@ -74,6 +74,5 @@ class TestRocketEquation(unittest.TestCase):
         self.assertEqual(4890664, total)
 
 
-
 if __name__ == '__main__':
     unittest.main()

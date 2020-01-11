@@ -1,5 +1,7 @@
 """
 https://adventofcode.com/2015/day/2
+
+Note: Implemented for speed in terms of solving the solution, not for efficiency or scalability
 """
 
 

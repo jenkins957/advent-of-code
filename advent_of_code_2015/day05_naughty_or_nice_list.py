@@ -1,5 +1,7 @@
 """
 https://adventofcode.com/2015/day/5
+
+Note: Implemented for speed in terms of solving the solution, not for efficiency or scalability
 """
 
 import unittest

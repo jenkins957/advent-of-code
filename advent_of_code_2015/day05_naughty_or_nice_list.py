@@ -10,6 +10,10 @@ def is_nice(string):
     return contains_vowels(string) and contains_double_character(string) and does_not_contain_string(invalid_characters, string)
 
 
+def is_nice_version2(string):
+    return contains_pair_double_character(string) and char_repeats_with_one_char_inbetween(string)
+
+
 def contains_vowels(string):
     vowels = ['a', 'e', 'i', 'o', 'u']
 
@@ -42,6 +46,30 @@ def does_not_contain_string(criteria, string):
     return True
 
 
+def contains_pair_double_character(string):
+
+    index = 0
+    while index < len(string) - 1:
+        pair = string[index] + string[index + 1]
+        if pair in string[index + 2:]:
+            return True
+        index += 1
+    return False
+
+
+def char_repeats_with_one_char_inbetween(string):
+    index = 0
+    while index < len(string) - 2:
+        first_char = string[index]
+        third_char = string[index + 2]
+
+        if first_char == third_char:
+            return True
+        index += 1
+
+    return False
+
+
 def read_input_data(filename):
     with open(filename) as file:
         return file.read().splitlines()
@@ -65,6 +93,24 @@ class TestDay05(unittest.TestCase):
         self.assertTrue(contains_double_character('abcdd'))
         self.assertTrue(contains_double_character('abccd'))
 
+    def test_contains_pair_of_double_character(self):
+        self.assertTrue(contains_pair_double_character('xyxy'))
+        self.assertTrue(contains_pair_double_character('aabcdefgaa'))
+        self.assertTrue(contains_pair_double_character('abcdeelkjhgeekj'))
+
+        self.assertFalse(contains_pair_double_character('aaa'))
+        self.assertFalse(contains_pair_double_character('aba'))
+        self.assertFalse(contains_pair_double_character('abccba'))
+
+    def test_char_repeats_with_one_char_between(self):
+        self.assertTrue(char_repeats_with_one_char_inbetween('xyx'))
+        self.assertTrue(char_repeats_with_one_char_inbetween('abcdefeghi'))
+        self.assertTrue(char_repeats_with_one_char_inbetween('aaa'))
+
+        self.assertFalse(char_repeats_with_one_char_inbetween('abc'))
+        self.assertFalse(char_repeats_with_one_char_inbetween('abbc'))
+        self.assertFalse(char_repeats_with_one_char_inbetween('abcdee'))
+
     def test_does_not_contain_chars(self):
         invalid_characters = ['ab', 'cd', 'pq', 'xy']
 
@@ -80,6 +126,14 @@ class TestDay05(unittest.TestCase):
         self.assertFalse(is_nice('haegwjzuvuyypxyu'))
         self.assertFalse(is_nice('dvszwmarrgswjxmb'))
 
+    def test_is_nice_version2(self):
+        self.assertTrue(is_nice_version2('qjhvhtzxzqqjkmpb'))
+        self.assertTrue(is_nice_version2('xxyxx'))
+
+    def test_is_naughty_version2(self):
+        self.assertFalse(is_nice('uurcxstgmygtbstg'))
+        self.assertFalse(is_nice('ieodomkazucvgmuy'))
+
     def test_part1(self):
         data = read_input_data(r'resources/day5_input.txt')
         names_on_nice_list = 0
@@ -87,13 +141,18 @@ class TestDay05(unittest.TestCase):
             if is_nice(name):
                 names_on_nice_list += 1
 
-        print('Number on nice list:', names_on_nice_list)
+        print('Part1, Number on nice list:', names_on_nice_list)
         self.assertEqual(236, names_on_nice_list)
-        
-    # def test_part2(self):
-    #     result = find_hash_starting_with_matching_prexfix('ckczppom', '000000')
-    #     print('Part 2:', result)
-    #     self.assertEqual(3938038, result)
+
+    def test_part2(self):
+        data = read_input_data(r'resources/day5_input.txt')
+        names_on_nice_list = 0
+        for name in data:
+            if is_nice_version2(name):
+                names_on_nice_list += 1
+
+        print('Part 2, Number on nice list:', names_on_nice_list)
+        self.assertEqual(51, names_on_nice_list)
 
 
 if __name__ == '__main__':

@@ -22,7 +22,7 @@ def calculate_hash(input):
     return m.hexdigest()
 
 
-class TestDay03(unittest.TestCase):
+class TestDay04(unittest.TestCase):
 
     def test_hash(self):
         self.assertEqual('00000', calculate_hash('abcdef609043')[:5])

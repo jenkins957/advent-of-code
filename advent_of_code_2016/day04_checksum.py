@@ -8,6 +8,28 @@ Note: Implemented for speed in terms of solving the solution, not for efficiency
 """
 
 
+def decrypt_room_name(text, sector_id):
+    plain_text = ''
+
+    for c in text:
+        if c == '-':
+            plain_text += ' '
+        else:
+            plain_text += chr(get_ascii_value(c, sector_id))
+    return plain_text
+
+
+def get_ascii_value(c, rotations):
+
+    ascii_value = ord(c)
+
+    for i in range(rotations):
+        ascii_value += 1
+        if ascii_value > 122:
+            ascii_value = 97
+    return ascii_value
+
+
 def parse_input(input_string):
     number = re.findall(r'\d+', input_string)
 
@@ -45,13 +67,15 @@ def perform_checksum(input_string):
 
 def process_data(data):
     total = 0
+    rooms = []
     for string in data:
         input = parse_input(string)
         checksum = perform_checksum(input[0])
         if checksum == input[2]:
             assert input[1].isdigit(), 'sector id is not an integer'
             total += int(input[1])
-    return total
+            rooms.append(decrypt_room_name(input[0], int(input[1])) + ',' + input[1])
+    return total, rooms
 
 
 def read_input_data(filename):
@@ -79,17 +103,40 @@ class TestDay01(unittest.TestCase):
         self.assertEqual('abdeg', perform_checksum('aabbcddeefgg'))
         self.assertEqual('abcde', perform_checksum('gfeeddccbbaa'))
 
+    def test_decrypt_room_name(self):
+        self.assertEqual('bcd', decrypt_room_name('abc', 1))
+        self.assertEqual('cde', decrypt_room_name('abc', 2))
+        self.assertEqual('abc', decrypt_room_name('abc', 26))
+
+        self.assertEqual('very encrypted name', decrypt_room_name('qzmt-zixmtkozy-ivhz', 343))
+
     def test_day4_part1_example_data(self):
         input_data = ['aaaaa-bbb-z-y-x-123[abxyz]', 'a-b-c-d-e-f-g-h-987[abcde]', 'not-a-real-room-404[oarel]', 'totally-real-room-200[decoy]']
-        sum = process_data(input_data)
-        print('Part1 Example Data:', sum)
-        self.assertEqual(1514, sum)
+        result = process_data(input_data)
+        print('Part1 Example Data:', result[0])
+        self.assertEqual(1514, result[0])
 
     def test_day4_part1_solution(self):
         data = read_input_data(r'resources/day4_input.txt')
-        sum = process_data(data)
-        print('Part1:', sum)
-        self.assertEqual(409147, sum)
+        result = process_data(data)
+        print('Part1:', result[0])
+        self.assertEqual(409147, result[0])
+
+    def test_day4_part2_solution(self):
+        data = read_input_data(r'resources/day4_input.txt')
+        result = process_data(data)
+
+        name = ''
+        sector_id = '991'
+        for r in result[1]:
+            if 'northpole object storage' in r:
+                elements = r.split(',')
+                name = elements[0]
+                sector_id = elements[1]
+
+        print('Part2:', name, sector_id)
+        self.assertEqual('northpole object storage', name)
+        self.assertEqual('991', sector_id)
 
 
 if __name__ == '__main__':

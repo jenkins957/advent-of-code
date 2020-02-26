@@ -78,13 +78,13 @@ class TestDay05(unittest.TestCase):
     def test_part1(self):
         passcode = calculate_passcode('ojvtpuvg')
 
-        print('Part 1:', passcode)
+        print('Part 1:', ''.join(passcode))
         self.assertEqual('4543c154', ''.join(passcode))
 
     def test_part2(self):
         passcode = calculate_passcode_part2('ojvtpuvg')
 
-        print('Part 2:', passcode)
+        print('Part 2:', ''.join(passcode))
         self.assertEqual('1050cbbd', ''.join(passcode))
 
 

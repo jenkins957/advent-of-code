@@ -70,8 +70,6 @@ class TestDay05(unittest.TestCase):
 
     def test_position_char_at_hash(self):
         result = find_hash_starting_with_matching_prexfix('abc', 3231929)
-
-        print(result)
         self.assertEqual(1, int(result[0][5:6]))
         self.assertEqual(5, int(result[0][6:7]))
 

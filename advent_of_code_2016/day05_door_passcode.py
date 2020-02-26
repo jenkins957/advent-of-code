@@ -9,8 +9,41 @@ import hashlib
 import unittest
 
 
+def calculate_passcode(input):
+    passcode = []
+
+    offset = 0
+    for _ in range(8):
+        result = find_hash_starting_with_matching_prexfix(input, offset)
+        passcode.append(result[0][5:6])
+        offset = int(result[1]) + 1
+
+    return passcode
+
+
+def calculate_passcode_part2(input):
+    passcode = ['-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1']
+
+    offset = 0
+    digits_found = 0
+    while digits_found < 8:
+        result = find_hash_starting_with_matching_prexfix(input, offset)
+
+        position = result[0][5:6]
+        if position.isdigit():
+            digit = (result[0][6:7])
+            index = int(position)
+            if index >= 0 and index < 8 and passcode[index] == '-1':
+                passcode[index] = digit
+                digits_found += 1
+
+        offset = int(result[1]) + 1
+
+    return passcode
+
+
 def find_hash_starting_with_matching_prexfix(input, offset, prefix='00000'):
-    for i in range(offset, 99999999):
+    for i in range(offset, 999999999):
         hash_input = input + str(i)
         res = calculate_hash(hash_input)
         if prefix == res[:len(prefix)]:
@@ -31,37 +64,28 @@ class TestDay05(unittest.TestCase):
         self.assertEqual('00000', calculate_hash('pqrstuv1048970')[:5])
         self.assertEqual('00000', calculate_hash('abc3231929')[:5])
 
-    # def test_find_lowest_number_to_produce_hash_starting_5zeros(self):
-    #     result = find_hash_starting_with_matching_prexfix('abcdef')
-    #     print('Result:', result)
-    #     self.assertEqual(609043, result)
-    #
-    #     result = find_hash_starting_with_matching_prexfix('pqrstuv')
-    #     print('Result:', result)
-    #     self.assertEqual(1048970, result)
-    #
     def test_6th_char_at_hash(self):
+        result = find_hash_starting_with_matching_prexfix('abc', 3231929)
+        self.assertEqual(1, int(result[0][5:6]))
+
+    def test_position_char_at_hash(self):
         result = find_hash_starting_with_matching_prexfix('abc', 3231929)
 
         print(result)
         self.assertEqual(1, int(result[0][5:6]))
+        self.assertEqual(5, int(result[0][6:7]))
 
     def test_part1(self):
-        passcode = []
-
-        offset = 0
-        for _ in range(8):
-            result = find_hash_starting_with_matching_prexfix('ojvtpuvg', offset)
-            passcode.append(result[0][5:6])
-            offset = int(result[1]) + 1
+        passcode = calculate_passcode('ojvtpuvg')
 
         print('Part 1:', passcode)
         self.assertEqual('4543c154', ''.join(passcode))
 
-    # def test_part2(self):
-    #     result = find_hash_starting_with_matching_prexfix('ckczppom', '000000')
-    #     print('Part 2:', result)
-    #     self.assertEqual(3938038, result)
+    def test_part2(self):
+        passcode = calculate_passcode_part2('ojvtpuvg')
+
+        print('Part 2:', passcode)
+        self.assertEqual('1050cbbd', ''.join(passcode))
 
 
 if __name__ == '__main__':

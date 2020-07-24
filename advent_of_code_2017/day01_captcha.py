@@ -33,7 +33,7 @@ def calculate_sum_of_matching_digits(data):
         previous_char = c
 
 
-    #handle wrap, all accounted for except last nnumber compared to first number
+    #handle wrap, all accounted for except last number compared to first number
     if previous_char == data[0]:
         total += int(previous_char)
 

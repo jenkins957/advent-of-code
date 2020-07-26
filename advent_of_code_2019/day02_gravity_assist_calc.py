@@ -4,43 +4,13 @@ https://adventofcode.com/2019/day/2
 
 import unittest
 
+from advent_of_code_2019.int_computer import IntComputer
+
 
 def gravity_assist_calc(data):
-    opcode_index = 0
-
-    while (opcode_index < len(data)):
-        opcode = data[opcode_index]
-
-        if not is_valid_instruction(opcode):
-            print('Invalid OPCode:', opcode)
-            exit(-1)
-
-        if opcode == 99:
-            # print('HALT')
-            break
-        elif opcode == 1 or opcode == 2:
-            input1Index = data[opcode_index + 1]
-            input2Index = data[opcode_index + 2]
-            outputIndex = data[opcode_index + 3]
-
-            num1 = data[input1Index]
-            num2 = data[input2Index]
-            res_index = outputIndex
-
-            if opcode == 1:
-                sum = num1 + num2
-            elif opcode == 2:
-                sum = num1 * num2
-
-            data[res_index] = sum
-
-        opcode_index += 4
-
-    return data
-
-
-def is_valid_instruction(ins):
-    return ins == 1 or ins == 2 or ins == 99
+    int_computer = IntComputer()
+    int_computer.load_program(data)
+    return int_computer.execute()
 
 
 def reset_program_memory():
@@ -89,7 +59,7 @@ class TestStrinTestGravityAssistCalculatorMethods(unittest.TestCase):
     def test_part1(self):
         data = reset_program_memory()
         result = gravity_assist_calc(data)
-        print('Part 1 Value at index 0: ', data[0])
+        print('Part 1 Value: ', data[0])
 
         self.assertEqual(6568671, int(result[0]))
 

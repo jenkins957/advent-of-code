@@ -52,7 +52,7 @@ def reset_program_memory():
             10, 0, 99, 2, 0, 14, 0]
 
 
-def calcualte_noun_verb():
+def calculate_noun_verb():
     # part 2
     for noun in range(3, 99):
         for verb in range(3, 99):
@@ -67,7 +67,7 @@ def calcualte_noun_verb():
 
 
 # Unit Tests
-class TestStrinTestGravityAssistCalculatorgMethods(unittest.TestCase):
+class TestStrinTestGravityAssistCalculatorMethods(unittest.TestCase):
     def test_add(self):
         data = [1, 0, 0, 3, 99]
         gravity_assist_calc(data)
@@ -94,8 +94,8 @@ class TestStrinTestGravityAssistCalculatorgMethods(unittest.TestCase):
         self.assertEqual(6568671, int(result[0]))
 
     def test_part2(self):
-        result = calcualte_noun_verb()
-        print('Part 2 Value: ', calcualte_noun_verb())
+        result = calculate_noun_verb()
+        print('Part 2 Value: ', calculate_noun_verb())
 
         self.assertEqual(3951, result)
 

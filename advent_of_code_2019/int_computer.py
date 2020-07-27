@@ -4,12 +4,16 @@ import unittest
 class IntComputer:
     def __init__(self):
         self.program = []
+        self.input = None
 
     def reset(self):
         self.program = []
 
     def load_program(self, program):
         self.program = program
+
+    def add_input(self, input_value):
+        self.input = input_value
 
     def __get_indirect_value(self, index):
         op1_index = self.program[index]
@@ -33,6 +37,10 @@ class IntComputer:
                 result_index = self.program[index + 3]
                 self.program[result_index] = self.__perform_operation(instruction, op1, op2)
                 index += 4
+            if instruction == 3:
+                input_index = self.__get_indirect_value(index + 1)
+                self.program[input_index] = self.input
+                index += 2
             elif instruction == 99:
                 return self.program
             else:
@@ -70,6 +78,17 @@ class TestIntComputer(unittest.TestCase):
         # Multiply 10 + 11 and store result in index 3
         int_computer.load_program([2, 5, 6, 3, 99, 10, 11])
         self.assertEqual([2, 5, 6, 110, 99, 10, 11], int_computer.execute())
+
+    def test_should_store_input_value_at_specific_index(self):
+        # Example, the instruction 3,4 would take an input value and store it at address 4
+        int_computer = IntComputer()
+        int_computer.add_input(20)
+
+        # Store the value 20 at index 1
+        # OpCode 3
+        # Param 2 (index)
+        int_computer.load_program([3, 1, 99])
+        self.assertEqual([3, 20, 99], int_computer.execute())
 
     def test_should_execute_program_and_return_result(self):
         int_computer = IntComputer()

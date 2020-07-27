@@ -37,7 +37,7 @@ class IntComputer:
                 result_index = self.program[index + 3]
                 self.program[result_index] = self.__perform_operation(instruction, op1, op2)
                 index += 4
-            if instruction == 3:
+            elif instruction == 3:
                 input_index = self.__get_indirect_value(index + 1)
                 self.program[input_index] = self.input
                 index += 2
@@ -80,7 +80,7 @@ class TestIntComputer(unittest.TestCase):
         self.assertEqual([2, 5, 6, 110, 99, 10, 11], int_computer.execute())
 
     def test_should_store_input_value_at_specific_index(self):
-        # Example, the instruction 3,4 would take an input value and store it at address 4
+        # Example, the instruction 3,1 would take an input value and store it at index 1
         int_computer = IntComputer()
         int_computer.add_input(20)
 
@@ -89,6 +89,17 @@ class TestIntComputer(unittest.TestCase):
         # Param 2 (index)
         int_computer.load_program([3, 1, 99])
         self.assertEqual([3, 20, 99], int_computer.execute())
+
+    # def test_should_output_value_at_specific_index(self):
+    #     # Example, the instruction 4,1 would output the value located at index 1
+    #     int_computer = IntComputer()
+    #     int_computer.add_input(20)
+    #
+    #     # Store the value 20 at index 1
+    #     # OpCode 3
+    #     # Param 2 (index)
+    #     int_computer.load_program([3, 1, 99])
+    #     self.assertEqual([3, 20, 99], int_computer.execute())
 
     def test_should_execute_program_and_return_result(self):
         int_computer = IntComputer()

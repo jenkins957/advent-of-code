@@ -5,15 +5,21 @@ class IntComputer:
     def __init__(self):
         self.program = []
         self.input = None
+        self.output = []
 
     def reset(self):
         self.program = []
+        self.input = None
+        self.output = []
 
     def load_program(self, program):
         self.program = program
 
     def add_input(self, input_value):
         self.input = input_value
+
+    def get_output(self):
+        return self.output
 
     def __get_indirect_value(self, index):
         op1_index = self.program[index]
@@ -40,6 +46,9 @@ class IntComputer:
             elif instruction == 3:
                 input_index = self.__get_indirect_value(index + 1)
                 self.program[input_index] = self.input
+                index += 2
+            elif instruction == 4:
+                self.output.append(self.__get_indirect_value(index + 1))
                 index += 2
             elif instruction == 99:
                 return self.program
@@ -86,20 +95,28 @@ class TestIntComputer(unittest.TestCase):
 
         # Store the value 20 at index 1
         # OpCode 3
-        # Param 2 (index)
+        # Param 1 (index)
         int_computer.load_program([3, 1, 99])
         self.assertEqual([3, 20, 99], int_computer.execute())
 
-    # def test_should_output_value_at_specific_index(self):
-    #     # Example, the instruction 4,1 would output the value located at index 1
-    #     int_computer = IntComputer()
-    #     int_computer.add_input(20)
-    #
-    #     # Store the value 20 at index 1
-    #     # OpCode 3
-    #     # Param 2 (index)
-    #     int_computer.load_program([3, 1, 99])
-    #     self.assertEqual([3, 20, 99], int_computer.execute())
+    def test_should_output_value_at_specific_index(self):
+        # Example, the instruction 4,1 would output the value located at index 1
+        int_computer = IntComputer()
+
+        # Output the value 20 from index 1
+        # OpCode 4
+        # Param 1 (index)
+        int_computer.load_program([4, 3, 99, 20])
+        self.assertEqual([4, 3, 99, 20], int_computer.execute())
+        self.assertEqual([20], int_computer.get_output())
+
+    def test_should_output_value_supplied_as_input(self):
+        int_computer = IntComputer()
+        int_computer.load_program([3, 0, 4, 0, 99])
+        int_computer.add_input(2)
+
+        int_computer.execute()
+        self.assertEqual([4], int_computer.get_output())
 
     def test_should_execute_program_and_return_result(self):
         int_computer = IntComputer()

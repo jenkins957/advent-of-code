@@ -21,22 +21,22 @@ def count_trees_on_route(map, right, down):
     :return: Number of trees encountered
     """
     trees = 0
-    yPos = 0
-    xPos = 0
+    y_pos = 0
+    x_pos = 0
 
-    while yPos <= len(map) - 1:
-        row = map[yPos]
+    while y_pos <= len(map) - 1:
+        row = map[y_pos]
 
-        if row[xPos] == '#':
+        if row[x_pos] == '#':
             trees += 1
 
-        xPos += right
+        x_pos += right
 
         # Map wraps around to the the right
-        if xPos >= len(row):
-            xPos = xPos - len(row)
+        if x_pos >= len(row):
+            x_pos = x_pos - len(row)
 
-        yPos += down
+        y_pos += down
 
     return trees
 

@@ -30,12 +30,8 @@ def count_trees_on_route(map, right, down):
         if row[x_pos] == '#':
             trees += 1
 
-        x_pos += right
-
         # Map wraps around to the the right
-        if x_pos >= len(row):
-            x_pos = x_pos - len(row)
-
+        x_pos = (x_pos + right) % len(row)
         y_pos += down
 
     return trees
@@ -97,7 +93,7 @@ class TestTobogganTrajectory(unittest.TestCase):
 
         total = r1 * r2 * r3 * r4 * r5
 
-        print('Part2', total)
+        print('Part2:', total)
         self.assertEqual(2421944712, total)
 
 

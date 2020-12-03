@@ -30,7 +30,7 @@ def count_trees_on_route(map, right, down):
         if row[x_pos] == '#':
             trees += 1
 
-        # Map wraps around to the the right
+        # Map wraps around from right to left
         x_pos = (x_pos + right) % len(row)
         y_pos += down
 

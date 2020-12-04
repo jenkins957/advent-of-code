@@ -11,7 +11,13 @@ input_file = r'resources/day4_input.txt'
 
 
 class Passport:
-    mandatory_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
+    field_validators = {'byr': '19[2-9][0-9]|200[0-2]',
+                        'iyr': '201[0-9]|2020',
+                        'eyr': '202[0-9]|2030',
+                        'hgt': '((1[5-8][0-9]|19[0-3])cm)|((59|6[0-9]|7[0-6])in)',
+                        'hcl': '#[a-f0-9]{6}$',
+                        'ecl': 'amb|blu|brn|gry|grn|hzl|oth',
+                        'pid': '^[0-9]{9}$'}
 
     def __init__(self, passport):
         self.fields = {}
@@ -22,36 +28,15 @@ class Passport:
                 elements = kv_pair.split(':')
                 self.fields[elements[0]] = elements[1]
 
-    def contains_all_fields(self):
-        return all(k in self.fields for k in Passport.mandatory_fields)
+    def contains_required_fields(self):
+        return all(k in self.fields for k in Passport.field_validators)
 
-    @staticmethod
-    def __is_valid_int_field(value, min_val, max_val):
-        return min_val <= value <= max_val
+    def validate_fields(self):
+        for key, value in self.fields.items():
+            if key in Passport.field_validators and re.search(Passport.field_validators[key], value) is None:
+                return False
 
-    @staticmethod
-    def __is_valid_string_field(value, regex):
-        return re.search(regex, value) is not None
-
-    @staticmethod
-    def __is_valid_height_field(value):
-        if 'cm' in value:
-            if 150 <= int(value[:-2]) <= 193:
-                return True
-        elif 'in' in value:
-            if 59 <= int(value[:-2]) <= 76:
-                return True
-
-        return False
-
-    def validate_passport_fields(self):
-        return self.__is_valid_int_field(int(self.fields['byr']), 1920, 2002) and \
-               self.__is_valid_int_field(int(self.fields['iyr']), 2010, 2020) and \
-               self.__is_valid_int_field(int(self.fields['eyr']), 2020, 2030) and \
-               self.__is_valid_height_field(self.fields['hgt']) and \
-               self.__is_valid_string_field(self.fields['hcl'], '#[a-f0-9]{6}$') and \
-               self.__is_valid_string_field(self.fields['ecl'], '^(amb)|(blu)|(brn)|(gry)|(grn)|(hzl)|(oth)') and \
-               self.__is_valid_string_field(self.fields['pid'], '^[0-9]{9}$')
+        return True
 
 
 def parse_passport_data(data):
@@ -82,10 +67,10 @@ def validate_passports(data, part=1):
 def validate_passport(passport, part):
     passport_fields = Passport(passport)
 
-    result = passport_fields.contains_all_fields()
+    result = passport_fields.contains_required_fields()
 
     if result and part == 2:
-        result = passport_fields.validate_passport_fields()
+        result = passport_fields.validate_fields()
 
     return result
 

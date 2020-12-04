@@ -5,7 +5,7 @@ Note: Implemented for speed in terms of solving the solution, not for efficiency
 """
 
 import unittest
-import string
+import re
 
 input_file = r'resources/day4_input.txt'
 
@@ -33,27 +33,6 @@ class PassportFields:
     def contains_all_fields(self):
         return 'byr' in self.fields and 'iyr' in self.fields and 'eyr' in self.fields and 'hgt' in self.fields and 'hcl' in self.fields and 'ecl' in self.fields and 'pid' in self.fields
 
-    @staticmethod
-    def __validate_eyes(field):
-        count = 0
-
-        if 'amb' == field:
-            count += 1
-        if 'blu' == field:
-            count += 1
-        if 'brn' == field:
-            count += 1
-        if 'gry' == field:
-            count += 1
-        if 'grn' == field:
-            count += 1
-        if 'hzl' == field:
-            count += 1
-        if 'oth' == field:
-            count += 1
-
-        return count == 1
-
     def validate_data(self):
         byr = int(self.fields['byr'])
         if byr < 1920 or byr > 2002:
@@ -80,19 +59,15 @@ class PassportFields:
             return False
 
         hcl = self.fields['hcl']
-        if hcl[0] != '#':
-            return False
-        if len(hcl) != 7:
-            return False
-        if not all(c in string.hexdigits for c in hcl[1:]):
+        if re.search('#[a-f0-9]{6}$', hcl) is None:
             return False
 
         ecl = self.fields['ecl']
-        if not self.__validate_eyes(ecl):
+        if re.search('^(amb$)|(blu$)|(brn$)|(gry$)|(grn$)|(hzl$)|(oth$)', ecl) is None:
             return False
 
         pid = self.fields['pid']
-        if len(pid) != 9 or not pid.isnumeric():
+        if re.search('^[0-9]{9}$', pid) is None:
             return False
 
         return True

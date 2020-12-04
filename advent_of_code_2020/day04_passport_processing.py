@@ -11,6 +11,8 @@ input_file = r'resources/day4_input.txt'
 
 
 class Passport:
+    mandatory_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
+
     def __init__(self, passport):
         self.fields = {}
 
@@ -21,8 +23,7 @@ class Passport:
                 self.fields[elements[0]] = elements[1]
 
     def contains_all_fields(self):
-        return 'byr' in self.fields and 'iyr' in self.fields and 'eyr' in self.fields \
-               and 'hgt' in self.fields and 'hcl' in self.fields and 'ecl' in self.fields and 'pid' in self.fields
+        return all(k in self.fields for k in Passport.mandatory_fields)
 
     @staticmethod
     def __is_valid_int_field(value, min_val, max_val):
@@ -49,7 +50,7 @@ class Passport:
                self.__is_valid_int_field(int(self.fields['eyr']), 2020, 2030) and \
                self.__is_valid_height_field(self.fields['hgt']) and \
                self.__is_valid_string_field(self.fields['hcl'], '#[a-f0-9]{6}$') and \
-               self.__is_valid_string_field(self.fields['ecl'], '^(amb$)|(blu$)|(brn$)|(gry$)|(grn$)|(hzl$)|(oth$)') and \
+               self.__is_valid_string_field(self.fields['ecl'], '^(amb)|(blu)|(brn)|(gry)|(grn)|(hzl)|(oth)') and \
                self.__is_valid_string_field(self.fields['pid'], '^[0-9]{9}$')
 
 

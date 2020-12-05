@@ -66,7 +66,7 @@ def read_input_data(filename):
     return data
 
 
-class TestDay5(unittest.TestCase):
+class TestDay5BinaryBoarding(unittest.TestCase):
     def test_binary_decode(self):
         id = decode_seat_id('FBFBBFFRLR')
         self.assertEqual(357, id)
@@ -77,14 +77,14 @@ class TestDay5(unittest.TestCase):
         id = decode_seat_id('BBFFBBFRLL')
         self.assertEqual(820, id)
 
-    def test_part_1(self):
+    def test_find_highest_seat_numberpart_1(self):
         data = read_input_data(input_file)
 
         result = find_highest_seat_number(data)
         print('Part1:', result)
         self.assertEqual(906, result)
 
-    def test_part_2(self):
+    def test_find_missing_seat_numberpart_2(self):
         data = read_input_data(input_file)
         result = find_missing_seat(data)
 

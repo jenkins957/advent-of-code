@@ -65,6 +65,25 @@ def parse_input_data(filename):
 
 
 class TestDay6CustomCustoms(unittest.TestCase):
+    def test_part_1_simplified_solution(self):
+        # Simplified solution counting answers as it reads the data from file.
+        count = 0
+        yes_answers = set()
+        with open(r'resources/day6_input.txt') as file:
+            for answers in file:
+                answers = answers.strip('\n')
+                if len(answers) < 1:
+                    count += len(yes_answers)
+                    yes_answers = set()
+
+                for answer in answers:
+                    yes_answers.add(answer)
+
+            count += len(yes_answers)
+
+        print('Part1:', count)
+        self.assertEqual(6930, count)
+
     def test_part_1(self):
         result = count_questions_answered_yes(parse_input_data(input_file))
 

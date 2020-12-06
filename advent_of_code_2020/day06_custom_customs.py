@@ -64,7 +64,7 @@ def parse_input_data(filename):
     return groups
 
 
-class TestDay6(unittest.TestCase):
+class TestDay6CustomCustoms(unittest.TestCase):
     def test_part_1(self):
         result = count_questions_answered_yes(parse_input_data(input_file))
 

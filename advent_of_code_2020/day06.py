@@ -15,10 +15,10 @@ def count_questions_answered_yes(groups):
     for group in groups:
         # Keep track of all unique questions per group
         yes_answers = set()
-        for line in group:
-            for c in line:
-                yes_answers.add(c)
-                
+        for answers in group:
+            for answer in answers:
+                yes_answers.add(answer)
+
         count += len(yes_answers)
 
     return count
@@ -31,14 +31,14 @@ def count_questions_everyone_answered_yes(groups):
         yes_answers = {}
 
         # Count up all questions answered 'yes
-        for line in group:
-            for c in line:
-                if c in yes_answers:
-                    yes_answers[c] += 1
+        for answers in group:
+            for answer in answers:
+                if answer in yes_answers:
+                    yes_answers[answer] += 1
                 else:
-                    yes_answers[c] = 1
+                    yes_answers[answer] = 1
 
-        # Sum up ho wmany questions everyone in the group answered yes
+        # Sum up how many questions everyone in the group answered yes
         for value in yes_answers.values():
             if value == len(group):
                 count += 1

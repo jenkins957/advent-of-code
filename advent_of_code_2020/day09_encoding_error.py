@@ -11,18 +11,15 @@ input_file = r'resources/day9_input.txt'
 
 def find_first_number_that_cannot_be_summed(all_numbers, preamble_count):
     # Split preamble and numbers
-    preamble = all_numbers[:preamble_count]
     numbers = all_numbers[preamble_count:]
 
     start = 0
-    end = len(preamble)
     for n in numbers:
-        result = __two_sum(all_numbers[start:end], n)
+        result = __two_sum(all_numbers[start:start + preamble_count], n)
         if result is None:
             # This number cannot be summed by any of the previous n numbers. n defined by preamble_count
             return n
         start += 1
-        end += 1
 
 
 def calculate_the_encryption_weakness(numbers, preamble_count):

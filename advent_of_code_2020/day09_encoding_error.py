@@ -77,7 +77,6 @@ class TestDay9EncodingError(unittest.TestCase):
     def test_part_2(self):
         result = calculate_the_encryption_weakness(read_integer_input_data(input_file), 25)
 
-        # too high: 27438220
         print('Part2:', result)
         self.assertEqual(3340942, result)
 

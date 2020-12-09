@@ -29,7 +29,7 @@ def execute_program(instructions):
 
         if op == 'acc':
             accumulator += val
-        if op == 'jmp':
+        elif op == 'jmp':
             instruction_pointer += val - 1
 
         instruction_pointer += 1
